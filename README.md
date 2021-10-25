@@ -11,4 +11,4 @@
 
 盲盒系统预览地址：
 
-![avatar](http://baidu.com/pic/doge.png)
+![avatar](https://quyingyong.oss-accelerate.aliyuncs.com/images/2/2021/10/IviVBWzWBAEOi4BwttTBB4i4GQ338Z.png)
