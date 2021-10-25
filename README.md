@@ -11,4 +11,4 @@
 
 盲盒系统预览地址：
 
-![image](https://quyingyong.oss-accelerate.aliyuncs.com/images/2/2021/10/IviVBWzWBAEOi4BwttTBB4i4GQ338Z.png)
+<img src="https://github.com/quyingyong/manghe/blob/main/qrcode.png" align="left" width="200" >
