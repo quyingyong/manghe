@@ -11,4 +11,4 @@
 
 盲盒系统预览地址：
 
-<img src="https://github.com/quyingyong/manghe/blob/main/qrcode.png" align="left" width="300" >
+<img src="https://github.com/quyingyong/manghe/blob/main/qrcode.jpg" align="left" width="300" >
