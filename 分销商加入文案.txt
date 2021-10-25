@@ -53,6 +53,3 @@
 <p style="text-align: center;">
     <span style="color: rgb(255, 0, 0); font-size: 14px; text-align: center;">当前为演示，以上为模拟文案，请勿支付购买，如需了解红娘功能请联系客服开通</span>
 </p>
-
-交流群：825133442
-交流群：825133442
