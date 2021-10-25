@@ -1,0 +1,5 @@
+ALTER TABLE `ims_core_paylog` 
+	ADD COLUMN `coupon` varchar(1000)  COLLATE utf8_general_ci NOT NULL after `is_wish` ;
+	
+ALTER TABLE `ims_modules` 
+	ADD COLUMN `status` tinyint(1)   NOT NULL after `label` ;

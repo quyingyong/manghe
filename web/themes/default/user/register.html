@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    {if !defined('FRAME')}{php define('FRAME', '')}{/if}
+	{php $frames = buildframes(FRAME);_calc_current_frames($frames);}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{if !empty($_W['page']['title'])}{$_W['page']['title']}{/if}{if empty($_W['page']['copyright']['sitename'])}{if IMS_FAMILY != 'x'}{if !empty($_W['page']['title'])} - {/if}微擎 - 公众平台自助引擎 -  Powered by W7.CC{/if}{else}{if !empty($_W['page']['title'])} - {/if}{$_W['page']['copyright']['sitename']}{/if}</title>
+	<meta name="keywords" content="{if empty($_W['page']['copyright']['keywords'])}{if IMS_FAMILY != 'x'}微擎,微信,微信公众平台,w7.cc{/if}{else}{$_W['page']['copyright']['keywords']}{/if}" />
+	<meta name="description" content="{if empty($_W['page']['copyright']['description'])}{if IMS_FAMILY != 'x'}公众平台自助引擎（www.w7.cc），简称微擎，微擎是一款免费开源的微信公众平台管理系统，是国内最完善移动网站及移动互联网技术解决方案。{/if}{else}{$_W['page']['copyright']['description']}{/if}" />
+	<link rel="shortcut icon" href="{if !empty($_W['setting']['copyright']['icon'])}{php echo to_global_media($_W['setting']['copyright']['icon'])}{else}./resource/images/favicon.ico{/if}" />
+	<link rel="stylesheet" href="./resource/css/tailwind.min.css" type="text/css">
+    <link rel="stylesheet" href="./resource/css/style.css" type="text/css">
+	<link href="./resource/css/bootstrap.home.min.css?v={IMS_RELEASE_DATE}" rel="stylesheet">
+	<link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?cssReloader=1631872801209" rel="stylesheet">
+    <script type="text/javascript">
+	if(navigator.appName == 'Microsoft Internet Explorer'){
+		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+			alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+		}
+	}
+	window.sysinfo = {
+		{if !empty($_W['uniacid'])}'uniacid': '{$_W['uniacid']}',{/if}
+		{if !empty($_W['acid'])}'acid': '{$_W['acid']}',{/if}
+		{if !empty($_W['openid'])}'openid': '{$_W['openid']}',{/if}
+		{if !empty($_W['uid'])}'uid': '{$_W['uid']}',{/if}
+		{if !empty($_W['role'])}'role': '{$_W['role']}',{/if}
+        {if !empty($_W['highest_role'])}'highest_role': '{$_W['highest_role']}',{/if}
+		'isfounder': {if !empty($_W['isfounder'])}1{else}0{/if},
+		'family': '{IMS_FAMILY}',
+		'siteroot': '{$_W['siteroot']}',
+		'siteurl': '{$_W['siteurl']}',
+		'attachurl': '{$_W['attachurl']}',
+		'attachurl_local': '{$_W['attachurl_local']}',
+		'attachurl_remote': '{$_W['attachurl_remote']}',
+		'module' : {'url' : '{if defined('MODULE_URL')}{MODULE_URL}{/if}', 'name' : '{if defined('IN_MODULE')}{IN_MODULE}{/if}'},
+		'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'},
+		'account' : {php echo json_encode($_W['account'])},
+		'server' : {'php' : '{php echo phpversion()}'},
+		'frame': '{FRAME}',
+	};
+	</script>
+	<script type="text/javascript" src="./resource/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="./resource/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./resource/js/app/util.js?v={IMS_RELEASE_DATE}"></script>
+	<script type="text/javascript" src="./resource/js/app/common.min.js?v={IMS_RELEASE_DATE}"></script>
+	<script type="text/javascript" src="./resource/js/require.js?v={IMS_RELEASE_DATE}"></script>
+	<script type="text/javascript" src="./resource/js/lib/jquery.nice-select.js?v={IMS_RELEASE_DATE}"></script>
+	<script>
+	$('#form1').submit(function(){
+		if ($.trim($(':text[name="username"]').val()) == '') {
+			util.message('没有输入用户名.', '', 'error');
+			return false;
+		}
+		if ($('#password').val() == '') {
+			util.message('没有输入密码.', '', 'error');
+			return false;
+		}
+		if ($('#password').val() != $('#repassword').val()) {
+			util.message('两次输入的密码不一致.', '', 'error');
+			return false;
+		}
+		
+		if (!$('#realname').val() || !/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i.test($('#realname').val())) {
+    		util.message('你输入的邮箱地址不正确.', '', 'error');
+    		return false;
+		}
+
+		{if $_W['setting']['register']['code']}
+		if ($.trim($(':text[name="code"]').val()) == '') {
+			util.message('没有输入验证码.', '', 'error');
+			return false;
+		}
+		{/if}
+		});
+	var h = document.documentElement.clientHeight;
+	$(".login").css('min-height',h);
+	</script>
+</head>
+<body>
+    <div class="relative min-h-screen flex">
+        <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
+            <div class="sm:w-1/2 xl:w-3/5 h-full hidden md:flex flex-auto items-center justify-center p-10 overflow-hidden bg-purple-900 text-white bg-no-repeat bg-cover relative" style="background-image: url(resource/images/home/img2.jpg)">
+                <div class="absolute bg-gradient-to-b from-indigo-600 to-blue-500 opacity-75 inset-0 z-0"></div>
+                <div class="w-full max-w-md z-10">
+                    <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">
+                        欢迎注册
+                    </div>
+                    <div class="sm:text-sm xl:text-md text-gray-200 font-normal">
+                        请认真填写右边带星号（*）的每一项表单，否则将不给与审核通过。
+                    </div>
+                </div>
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class=" md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8 md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
+                <div class="max-w-md w-full mx-auto space-y-8">
+                    <div class="flex items-center justify-center space-x-2">
+                     
+						<img src="resource/images/home/logo.png" alt="模板著">
+                    </div>
+					{if !empty($_W['setting']['register']['open'])}
+					{if $_GPC['register_type'] == 'system' || empty($_GPC['register_type'])}
+					<form action="" class="mt-8 space-y-6 register-mobile" method="post" role="form" id="form1" ng-controller="UserRegisterSystem" ng-cloak>
+                        {if $user_type == USER_TYPE_CLERK}
+						<input type="hidden" name="type" value="{USER_TYPE_CLERK}"/>
+						{/if}
+                        <div class="relative required" ng-class="{true:'has-error has-feedback',false:'has-success has-feedback'}[usernameErr]">
+                            <label class="ml-3 text-sm font-bold text-gray-700 tracking-wide xrequired">用户名</label> 
+							<input name="username" type="text" class="w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500" placeholder="请输入{if $user_type == USER_TYPE_CLERK}应用操作员{/if}用户名" ng-model="username" ng-blur="checkUsername()" required>
+							<span ng-class="{true:'fa fa-times form-control-feedback reg-system-valid',false:'fa fa-check form-control-feedback reg-system-valid'}[usernameErr]" aria-hidden="true"></span>
+							<span ng-class="{true:'color-red',false:'sr-only'}[usernameErr]" class="help-block" ng-bind="usernameMsg"></span>
+                        </div>
+                        <div class="mt-8 content-center required" ng-class="{true:'has-error has-feedback',false:'has-success has-feedback'}[passwordErr]">
+                            <label class="ml-3 text-sm font-bold text-gray-700 tracking-wide xrequired">密码</label> 
+							<input name="password" id="password" type="password" class="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="请输入不少于8位的密码" ng-model="password" ng-blur="checkPassword()" required>
+							<span ng-class="{true:'fa fa-times form-control-feedback reg-system-valid',false:'fa fa-check form-control-feedback reg-system-valid'}[passwordErr]" aria-hidden="true"></span>
+							<span ng-class="{true:'color-red',false:'sr-only'}[passwordErr]" class="help-block" ng-bind="passwordMsg"></span>
+                        </div>
+                        <div class="mt-8 content-center required" ng-class="{true:'has-error has-feedback',false:'has-success has-feedback'}[repasswordErr]">
+                            <label class="ml-3 text-sm font-bold text-gray-700 tracking-wide xrequired">确认密码</label> 
+							<input name="password" id="repassword" type="password" class="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="请再次输入不少于8位的密码" ng-blur="checkRepassword()" ng-model="repassword" required>
+							<span ng-class="{true:'fa fa-times form-control-feedback reg-system-valid',false:'fa fa-check form-control-feedback reg-system-valid'}[repasswordErr]" aria-hidden="true"></span>
+							<span ng-class="{true:'color-red',false:'sr-only'}[repasswordErr]" class="help-block" ng-bind="repasswordMsg"></span>
+                        </div>
+                        <div class="mt-8 content-center {if $item['required']}required{/if}">
+                            <label class="ml-3 text-sm font-bold text-gray-700 tracking-wide xrequired">昵称</label> 
+							<input name="nickname" value="" type="text" class="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="请输入昵称">
+
+                        </div>
+                        <div class="mt-8 content-center {if $item['required']}required{/if}">
+                            <label class="ml-3 text-sm font-bold text-gray-700 tracking-wide xrequired">邮箱地址</label> 
+							<input name="realname" name="realname" value="" type="text" class="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="请输入邮箱地址">
+
+                        </div>
+                        <div class="mt-8 content-center {if $item['required']}required{/if}">
+                            <label class="ml-3 text-sm font-bold text-gray-700 tracking-wide xrequired">微信号</label> 
+							<input name="qq" value="" type="text" class="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="请输入微信号">
+                        </div>
+						{if $_W['setting']['register']['code']}
+						<div class="mt-8 content-center input-group required">
+							<label class="ml-3 text-sm font-bold text-gray-700 tracking-wide">验证码</label> 
+							<input name="code" type="text" class="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="请输入验证码" ng-model="code">
+							<a href="javascript:;" id="toggle" class="input-group-btn imgverify" ng-click="changeVerify()"><img ng-src="{{image}}" style="height: 32px;"/></a>
+							<span ng-class="{true:'color-red',false:'sr-only'}[codeErr]" class="help-block" ng-bind="codeMsg"></span>
+						</div>
+						{/if}
+						{if !empty($setting['agreement_status']) && !empty($setting['agreement_status'])}
+						<div class="login-service">
+							<input type="checkbox" we7-check-all="1" id="server_system" class="" ng-model="agreement">
+							<label for="server_system">阅读并接受协议 <a class="color-default" id="btnclick">用户协议</a></label>
+						</div>
+						{/if}
+                        <div>
+							{if !empty($setting['agreement_status']) && !empty($setting['agreement_status'])}
+                            <button type="submit" name="submit" value="注册" class=" w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500" ng-disabled="usernameInvalid || passwordInvalid || repasswordInvalid || !agreement">注 册</button>
+							{else}
+							<button type="submit" name="submit" value="注册" class=" w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500" ng-disabled="usernameInvalid || passwordInvalid || repasswordInvalid">注 册</button>
+							{/if}
+							<input name="token" value="{$_W['token']}" type="hidden"/>
+							<input name="owner_uid" value="{$_GPC['owner_uid']}" type="hidden"/>
+							<input name="register_type" value="" type="hidden"/>
+							<input name="do" value="register" type="hidden"/>
+                        </div>
+                        <p class=" items-center justify-center mt-10 text-center text-md text-gray-500">
+                            <span>已有账号，</span> <a href="{url 'user/login'}" class=" text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300">去登录</a>
+                        </p>
+                    </form>
+					{/if}
+				{/if}
+                </div>
+            </div>
+        </div>
+</div>
+<footer class="footer ceo-background-secondary">
+    <div class="foot-cop">
+        <div class="ceo-container ceo-padding-small ceo-clearfix">
+            <div class="ceo-float-left">
+                <span>Copyright © 2017-2021<a href="{php echo $_SERVER['HTTP_HOST']}" target="_blank"> 宙始加密</a> All Rights Reserved ·</span>
+                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+				{php $icps = iunserializer($_W['setting']['copyright']['icps']);}
+				{if !empty($icps)}
+				{loop $icps $icp}
+				{if strpos($_SERVER['HTTP_HOST'], $icp['domain']) !== false && strpos($_SERVER['HTTP_HOST'], $icp['domain']) !== 0 || $_SERVER['HTTP_HOST'] === $icp['domain']}
+                <span class="ceo-margin-small-right"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer nofollow">{$icp['icp']}</a></span>
+				{if !empty($icp['policeicp_location']) && !empty($icp['policeicp_code'])}
+				<span class="ceo-margin-small-right"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode={php echo $icp['policeicp_code']}" target="_blank" rel="noreferrer nofollow">{php echo $icp['policeicp_location']}{php echo $icp['policeicp_code']}</a></span>
+				{/if}
+				{/if}
+				{/loop}
+				{/if}
+            </div>
+            <div class="ceo-float-right ceo-visible@s">
+                <span>By <a href="https://www.mobanzhu.com/" target="_blank" rel="noreferrer nofollow">通霸云互站</a></span>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="modal fade" id="NoPermissionModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="NoPermissionModalLabel">用户协议</h4>
+            </div>
+            <div class="modal-body">
+                <iframe id="NoPermissioniframe" width="100%" height="500px"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	angular.module('userManageApp').value('config', {
+		'owner_uid': "{php echo !empty($owner_uid) ? $owner_uid : 0}",
+		'register_type': "{php echo !empty($register_type) ? $register_type : 0}",
+		'register_sign': "{php echo !empty($register_sign) ? $register_sign : 'null'}",
+		'image': "{php echo url('utility/code')}",
+		'password_safe': "{$setting['safe']}",
+		'links': {
+			'valid_mobile_link': "{php echo url('user/register/valid_mobile')}",
+			'send_code_link': "{php echo url('utility/verifycode/send_code')}",
+			'check_smscode_link': "{php echo url('utility/verifycode/check_smscode')}",
+			'img_verify_link': "{php echo url('utility/code')}",
+			'register_link': "{php echo url('user/register/register', array('type' => $user_type, 'm' => $_GPC['m'], 'redirect' => $_GPC['redirect']))}",
+			'check_username_link': "{php echo url('user/register/check_username')}",
+			'check_code_link': "{php echo url('user/register/check_code')}",
+			'check_password_link': "{php echo url('user/register/check_password_safe')}",
+		},
+	});
+	angular.bootstrap($('.register-mobile'), ['userManageApp']);
+$(function(){
+    $("#btnclick").click(function(){
+        var frameSrc = "{php echo url('user/agreement-show')}";
+        $("#NoPermissioniframe").attr("src", frameSrc);
+        $('#NoPermissionModal').modal({ show: true, backdrop: 'static' });
+    });
+});
+</script>
+{template 'common/footer-base'}
+</body>
+</html>

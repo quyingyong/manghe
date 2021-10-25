@@ -1,0 +1,74 @@
+{template 'common/header'}
+<div class="form-horizontal" id="js-cloud-diagnose" ng-controller="CloudDiagnoseCtrl" ng-cloak>
+	<h5 class="page-header">云服务状态诊断</h5>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">站点URL</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">{$_W['siteroot']}</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">站点ID</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">{$_W['setting']['site']['key']}</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">通信密钥</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">{php echo substr($_W['setting']['site']['token'], 0, 5) . '*****' . substr($_W['setting']['site']['token'], -5, 5);}</p>
+			<div class="help-block">请查看您的站点ID和通信密钥, 需要保证与<a href="{php echo url('cloud/profile');}">云服务平台记录</a>的值一致, 否则不能正常使用云平台的各项服务. </div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">系统版本</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">WeEngine{php echo IMS_VERSION}{php echo IMS_FAMILY} (Release {php echo IMS_RELEASE_DATE})</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-10">
+			<form action="" method="post" role="form" onsubmit="return confirm('如果您的系统没有发生云服务链接异常, 请不要使用重置功能.');">
+				<input type="submit" name="submit" value="重置站点ID和通信密钥" class="btn btn-primary" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</form>
+			<div class="help-block">如果您的站点ID和通信密钥与您绑定的站点信息中的记录不一致, 或访问云服务失败并多次重试后无效时. 请点击重置按钮, 重新注册您的站点信息(如果需要使用相同的微信魔方论坛账号绑定, 需要先在云服务后台中解除绑定) </div>
+		</div>
+	</div>
+
+	<h5 class="page-header">云服务网络诊断</h5>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">服务器时间检查</label>
+		<div class="col-sm-10">
+			<p class="form-control-static" id="check-time"><i class="fa fa-check text-success"></i> 正常</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">DNS解析函数</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">{if function_exists('gethostbyname')}<i class="fa fa-check text-success"></i> 正常{else}<i class="fa fa-remove text-warning"></i> 异常{/if}</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">云平台域名解析</label>
+		<div class="col-sm-10 js-checkip">
+			{loop $checkips $index $ip}
+				<p class="form-control-static">云节点{php echo $index+1;}：<span id="serverdnsip">{$ip}</span>; 速率测试：<span class="form-control-static" id="checkresult">检测中...</span></p>
+			{/loop}
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">云平台到站点测试</label>
+		<div class="col-sm-10">
+			<p class="form-control-static" id="check-touch"><i class="fa fa-check text-success"></i> 正常</p>
+		</div>
+	</div>
+</div>
+<script>
+angular.module('cloudApp').value('config', {
+	apiurl: '{php echo $apiurl}'
+});
+angular.bootstrap($('#js-cloud-diagnose'), ['cloudApp']);
+</script>
+{template 'common/footer'}
