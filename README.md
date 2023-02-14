@@ -20,6 +20,6 @@
 盲盒系统预览地址：
 
 <img src="https://github.com/quyingyong/manghe/blob/main/qrcode2.jpg" align="left" width="300" >
-
-
+<br>
+<br>
 <img src="https://github.com/quyingyong/manghe/blob/main/showtest.jpg" align="left" width="300" >
