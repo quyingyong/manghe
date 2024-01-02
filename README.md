@@ -53,4 +53,6 @@
 盲盒系统预览地址：
 
 <br>
-<img src="https://github.com/quyingyong/manghe/blob/main/showtest.jpg" align="left" width="300" >
+<img src="[https://github.com/quyingyong/manghe/blob/main/showtest.jpg](https://github.com/quyingyong/manghe/assets/12825648/6c61119f-d180-4478-b3a0-1382329c274e)" align="left" width="300" >
+
+
